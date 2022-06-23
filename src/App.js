@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import socketIOClient from "socket.io-client";
 import './App.css'
-const host = "http://localhost:3000";
+const host = "https://chat-server-eta.vercel.app/";
 
 function App() {
   const [mess, setMess] = useState([]);
@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     socketRef.current = socketIOClient.connect(host)
-  
+
     socketRef.current.on('getId', data => {
       setId(data)
     })
@@ -31,7 +31,7 @@ function App() {
   const sendMessage = () => {
     if(message !== null) {
       const msg = {
-        content: message, 
+        content: message,
         id: id
       }
       socketRef.current.emit('sendDataClient', msg)
@@ -42,9 +42,9 @@ function App() {
   const scrollToBottom = () => {
     messagesEnd.current.scrollIntoView({ behavior: "smooth" });
   }
-  
 
-  const renderMess =  mess.map((m, index) => 
+
+  const renderMess =  mess.map((m, index) =>
         <div key={index} className={`${m.id === id ? 'your-message' : 'other-people'} chat-item`}>
           {m.content}
         </div>
@@ -70,11 +70,11 @@ function App() {
       </div>
 
       <div class="send-box">
-          <textarea 
-            value={message}  
+          <textarea
+            value={message}
             onKeyDown={onEnterPress}
-            onChange={handleChange} 
-            placeholder="Nhập tin nhắn ..." 
+            onChange={handleChange}
+            placeholder="Nhập tin nhắn ..."
           />
           <button onClick={sendMessage}>
             Send
